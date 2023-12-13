@@ -11,12 +11,42 @@ public class Subscription  {  //Абонемент
 
     private int numberOfSub; //номер подписки
 
-    LocalDate dateOfReg; //дата регистрации(текущая)
-    private Date expirationDate; //дата окончания регистрации
+    private LocalDateTime dateOfReg; //дата начала подписки
+    private LocalDateTime expirationDate; //дата окончания подписки
 
-    TypeOfSub typeOfSub;
+    private TypeOfSub typeOfSub;
 
-    public Subscription(String nameAndSurnameOwner, int yearOfBirthOwner, int numberOfSub, LocalDate dateOfReg, java.util.Date expirationDate, TypeOfSub typeOfSub) {
+    public int getYearOfBirthOwner() {
+        return yearOfBirthOwner;
+    }
+
+    public String getNameAndSurnameOwner() {
+        return nameAndSurnameOwner;
+    }
+
+    public int getNumberOfSub() {
+        return numberOfSub;
+    }
+
+    public LocalDateTime getDateOfReg() {
+        return dateOfReg;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public TypeOfSub getTypeOfSub() {
+        return typeOfSub;
+    }
+
+    public Subscription(LocalDateTime dateOfReg,LocalDateTime expirationDate) {
+        this.dateOfReg = dateOfReg;
+        this.expirationDate = expirationDate;
+    }
+
+    public Subscription(String nameAndSurnameOwner, int yearOfBirthOwner, int numberOfSub, LocalDateTime dateOfReg,
+                        LocalDateTime expirationDate, TypeOfSub typeOfSub) {
         this.nameAndSurnameOwner = nameAndSurnameOwner;
         this.yearOfBirthOwner = yearOfBirthOwner;
         this.numberOfSub = numberOfSub;
@@ -37,13 +67,17 @@ public class Subscription  {  //Абонемент
                 '}';
     }
 
-    public boolean canAccessGym;
-    public boolean canAccessPool;
-    public boolean canAccessHall;
 
 
 
-    public boolean isExpired() {
-        return expirationDate.before(new Date());
+
+    public boolean isExpired(Subscription subscription) { // Проверка сроков подписки
+        if(TypeOfSub.ONETIME==subscription.getTypeOfSub() && subscription.expirationDate.isEqual(LocalDateTime.now())) {return  true;}
+        if(TypeOfSub.DAY==subscription.getTypeOfSub() && subscription.expirationDate.isEqual(LocalDateTime.now())){return true;}
+        if (TypeOfSub.FULL==subscription.getTypeOfSub() && subscription.expirationDate.isEqual(LocalDateTime.now())){return true;}
+        else
+            return  false;
+
     }
 }
+

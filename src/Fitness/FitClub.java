@@ -1,6 +1,7 @@
 package Fitness;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,29 +12,30 @@ public class FitClub {
 
 
     LocalDate nowDate = LocalDate.now();
-    /*private TypeOfSub oneTime = new TypeOfSub(nowDate.plusDays(1),TypeOfLocation.GYM,TypeOfLocation.POOL, LocalTime.of(22,0));
-    private TypeOfSub day = new TypeOfSub(nowDate.plusDays(7),TypeOfLocation.GYM,TypeOfLocation.HALL,LocalTime.of(16,0));
-    private TypeOfSub full = new TypeOfSub(nowDate.plusDays(30),TypeOfLocation.GYM,TypeOfLocation.HALL,TypeOfLocation.POOL,LocalTime.of(22,0));*/
 
+    public FitClub(List<Subscription> gymSubscriptions, List<Subscription> poolSubscriptions, List<Subscription> hallSubscriptions) {
+        this.gymSubscriptions = gymSubscriptions;
+        this.poolSubscriptions = poolSubscriptions;
+        this.hallSubscriptions = hallSubscriptions;
+    }
 
+    private List<Subscription> gymSubscriptions;
 
-    private List<Subscription> gymSubscriptions = new ArrayList<>();
+    private List<Subscription> poolSubscriptions ;
+    private List<Subscription> hallSubscriptions ;
 
-    private List<Subscription> poolSubscriptions = new ArrayList<>();
-    private List<Subscription> hallSubscriptions = new ArrayList<>();
-
-    public void addSubscription(TypeOfLocation zone, Subscription subscription) {
+    public void addSubscription(TypeOfLocation zone, Subscription subscription) { //добавляем посетителя в выбранную локацию
         boolean isZoneValid = false;
         boolean isSpaceAvailable = false;
 
-        if (zone == TypeOfLocation.GYM) {
-            isZoneValid = subscription.canAccessGym;
+        if (zone==TypeOfLocation.GYM) {
+            isZoneValid = true;
             isSpaceAvailable = gymSubscriptions.size() < 20;
         } else if (zone == TypeOfLocation.POOL) {
-            isZoneValid = subscription.canAccessPool;
+            isZoneValid=true;
             isSpaceAvailable = poolSubscriptions.size() < 20;
         } else if (zone == TypeOfLocation.HALL) {
-            isZoneValid = subscription.canAccessHall;
+            isZoneValid = true;
             isSpaceAvailable = hallSubscriptions.size() < 20;
         }
 
@@ -41,8 +43,8 @@ public class FitClub {
             System.out.println("Абонемент не дает доступ в выбранную зону");
         } else if (!isSpaceAvailable) {
             System.out.println("Нет свободных мест в выбранной зоне");
-        } else if (subscription.isExpired()) {
-            System.out.println("Абонемент просрочен"); //доработать!
+        } else if (subscription.isExpired(subscription)) {
+            System.out.println("Абонемент просрочен");
         } else if (isSubscriptionRegistered(subscription)) {
             System.out.println("Абонемент уже зарегистрирован в одной из зон");
         } else {
@@ -54,14 +56,29 @@ public class FitClub {
                 hallSubscriptions.add(subscription);
             }
 
-            System.out.println("Абонемент успешно добавлен в выбранную зону");
+            System.out.println("Абонемент успешно добавлен в выбранную зону \n" + subscription.getNameAndSurnameOwner() +
+                    "\n"+zone + "\n" + LocalDateTime.now());
         }
     }
 
-    private boolean isSubscriptionRegistered(Subscription subscription) {
+    public boolean isSubscriptionRegistered(Subscription subscription) { //метод для проверки регистрации в одной из зон
         return gymSubscriptions.contains(subscription) ||
                 poolSubscriptions.contains(subscription) ||
                 hallSubscriptions.contains(subscription);
+    }
+
+
+
+    public void printLocationVisitor(List<Subscription> list,List<Subscription> list2,List<Subscription> list3){
+        for (Subscription subscription : gymSubscriptions) {
+            System.out.println(subscription.getNameAndSurnameOwner());// вывод информации в об абонементах
+        }
+        for (Subscription subscription : poolSubscriptions) {
+            System.out.println(subscription.getNameAndSurnameOwner());
+        }
+        for (Subscription subscription : hallSubscriptions) {
+            System.out.println(subscription.getNameAndSurnameOwner());
+        }
     }
 }
 

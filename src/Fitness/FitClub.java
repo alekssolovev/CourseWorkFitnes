@@ -10,6 +10,8 @@ import java.util.List;
 public class FitClub {
     private final int capasityOfLocation = 20;
 
+    //Subscriber subscriber;
+
 
     LocalDate nowDate = LocalDate.now();
 
@@ -45,7 +47,10 @@ public class FitClub {
             System.out.println("Нет свободных мест в выбранной зоне");
         } else if (subscription.isExpired(subscription)) {
             System.out.println("Абонемент просрочен");
-        } else if (isSubscriptionRegistered(subscription)) {
+        } else if(subscription.isTooLate(subscription)){
+            System.out.println("Время не соответствует типу пабонемента");
+        }
+          else if (isSubscriptionRegistered(subscription)) {
             System.out.println("Абонемент уже зарегистрирован в одной из зон");
         } else {
             if (zone == TypeOfLocation.GYM) {
@@ -56,7 +61,7 @@ public class FitClub {
                 hallSubscriptions.add(subscription);
             }
 
-            System.out.println("Абонемент успешно добавлен в выбранную зону \n" + subscription.getNameAndSurnameOwner() +
+            System.out.println("Абонемент успешно добавлен в выбранную зону \n" + subscription.subscriber.getNameAndSurnameOwner() +
                     "\n"+zone + "\n" + LocalDateTime.now());
         }
     }
@@ -71,13 +76,13 @@ public class FitClub {
 
     public void printLocationVisitor(List<Subscription> list,List<Subscription> list2,List<Subscription> list3){
         for (Subscription subscription : gymSubscriptions) {
-            System.out.println(subscription.getNameAndSurnameOwner());// вывод информации в об абонементах
+            System.out.println(subscription.subscriber.getNameAndSurnameOwner());// вывод информации в об абонементах
         }
         for (Subscription subscription : poolSubscriptions) {
-            System.out.println(subscription.getNameAndSurnameOwner());
+            System.out.println(subscription.subscriber.getNameAndSurnameOwner());
         }
         for (Subscription subscription : hallSubscriptions) {
-            System.out.println(subscription.getNameAndSurnameOwner());
+            System.out.println(subscription.subscriber.getNameAndSurnameOwner());
         }
     }
 }

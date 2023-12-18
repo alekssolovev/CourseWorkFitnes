@@ -9,14 +9,15 @@ public class App {
     public static void main(String[] args) {
         System.out.println("$$$");
         FitClub fitClub;
-        LocalDateTime localDate = LocalDateTime.of(2023,12,13,9,0);
-        Subscription subscription = new Subscription(localDate,localDate );
-        Subscription sub1 = new Subscription("Ann Dumm",
-                1899,1, LocalDateTime.now(),localDate,TypeOfSub.ONETIME);
-        Subscription sub2 = new Subscription("Mann Gurme",
-                1999,2, LocalDateTime.now(),LocalDateTime.now().plusDays(7),TypeOfSub.DAY);
-        Subscription sub3 = new Subscription("Barns Brom",
-                1995,3, LocalDateTime.now(),LocalDateTime.now().plusDays(30),TypeOfSub.FULL);
+        Subscriber subscriber1 = new Subscriber("Mann Gurme",1899);
+        Subscriber subscriber3 = new Subscriber("Barns Brom",1999);
+        Subscriber subscriber2 = new Subscriber("Gorn Ferty",1995);
+        LocalDateTime localDate = LocalDateTime.of(2023,12,13,19,0);
+
+        Subscription sub1 = new Subscription(subscriber1,
+                1, LocalDateTime.now(),localDate,TypeOfSub.DAY);
+        Subscription sub2 = new Subscription(subscriber2,2, LocalDateTime.now(),LocalDateTime.now().plusDays(7),TypeOfSub.DAY);
+        Subscription sub3 = new Subscription(subscriber3,3, LocalDateTime.now(),LocalDateTime.now().plusDays(30),TypeOfSub.FULL);
         List<Subscription> gymSubscriptions = new ArrayList<>();
         List<Subscription> poolSubscriptions = new ArrayList<>();
         List<Subscription> hallSubscriptions = new ArrayList<>();
